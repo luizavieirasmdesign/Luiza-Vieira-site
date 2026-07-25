@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marina Alves — Design Gráfico &amp; Social Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Caveat:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* neutros (texto / contraste) */
+    --tone-100:#FBF7EF;
+    --tone-150:#F5EEE0;
+    --tone-200:#EFE4D2;
+    --tone-300:#DCCBAE;
+    --tone-400:#B7A98C;
+    --tone-500:#8C8170;
+    --tone-600:#5C5346;
+    --tone-700:#332C22;
+    --tone-800:#201F13;
+    --white:#FFFFFF;
+
+    /* paleta colorida (referências) */
+    --orange:#E9631A;
+    --orange-deep:#ED4D0C;
+    --azure:#AAC4E7;
+    --azure-deep:#8FB0DE;
+    --tan:#C19570;
+    --tan-deep:#A97A54;
+    --berry:#7D0000;
+
+    --ease:cubic-bezier(.16,.8,.24,1);
+    --radius-lg:32px;
+    --radius-md:20px;
+    --radius-sm:12px;
+    --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-snap-type:y proximity;}
+  body{
+    background:var(--tone-100);
+    color:var(--tone-800);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-weight:400;
+    overflow-x:hidden;
+    position:relative;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;background-image:var(--noise);
+    opacity:.35;mix-blend-mode:overlay;pointer-events:none;z-index:2;
+  }
+  ::selection{background:var(--orange);color:var(--tone-100);}
+
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    text-align:center;
+  }
+  .display em, h1 em, h2 em{font-style:italic;font-weight:500;color:var(--orange);}
+  .hand{font-family:'Caveat',cursive;font-weight:600;}
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+  }
+
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  p{text-align:center;}
+
+  .section{position:relative;width:100%;padding:90px 6vw;scroll-snap-align:start;}
+  .container{max-width:1360px;margin:0 auto;}
+
+  /* ---------- ribbon badge ---------- */
+  .ribbon{
+    display:inline-flex;align-items:center;padding:8px 24px;
+    font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;
+    clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 50%,100% 100%,12px 100%,0 50%);
+  }
+  .ribbon-dark{background:var(--tone-800);color:var(--tone-100);}
+  .ribbon-light{background:var(--tone-100);color:var(--tone-800);}
+  .ribbon-accent{background:var(--orange);color:var(--tone-100);}
+
+  /* ---------- side reveal on scroll ---------- */
+  .reveal{opacity:0;transform:translateX(-56px);transition:opacity .8s var(--ease), transform .8s var(--ease);}
+  .reveal.in-view{opacity:1;transform:translateX(0);}
+  .reveal-right{transform:translateX(56px);}
+  .reveal-right.in-view{transform:translateX(0);}
+  .reveal-delay-1.in-view{transition-delay:.1s;}
+  .reveal-delay-2.in-view{transition-delay:.2s;}
+  .reveal-delay-3.in-view{transition-delay:.3s;}
+  .reveal-delay-4.in-view{transition-delay:.4s;}
+  @media (prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none;} html{scroll-behavior:auto;scroll-snap-type:none;} }
+
+  /* ---------- scalloped cutout edge (reusable) ---------- */
+  .scallop-bottom{position:relative;}
+  .scallop-bottom::after{
+    content:'';position:absolute;left:0;right:0;bottom:-1px;height:34px;z-index:3;
+    background-image:radial-gradient(circle at 18px 0, transparent 18px, var(--scallop-color) 19px);
+    background-size:36px 36px;background-repeat:repeat-x;
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed;top:14px;left:6vw;right:6vw;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:8px 18px;
+    background:rgba(251,247,239,0.85);
+    backdrop-filter:blur(10px);
+    border:1px solid var(--tone-300);
+    border-radius:999px;
+  }
+  .dots{display:flex;gap:5px;margin-right:10px;}
+  .dots span{width:5px;height:5px;border-radius:50%;background:var(--azure);}
+  .dots span:nth-child(1){background:var(--orange);}
+  .dots span:nth-child(2){background:var(--tan);}
+  .brand-wrap{display:flex;align-items:center;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:0.92rem;color:var(--tone-800);}
+  .nav-links{display:flex;gap:clamp(6px,1.6vw,18px);list-style:none;}
+  .nav-links a{
+    font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    padding:6px 12px;border-radius:999px;color:var(--tone-700);
+    transition:background .3s var(--ease), color .3s var(--ease);
+  }
+  .nav-links a:hover, .nav-links a.active{background:var(--orange);color:var(--tone-100);}
+  .nav-toggle{display:none;background:none;border:none;color:var(--tone-800);font-size:1.4rem;cursor:pointer;}
+
+  @media (max-width:820px){
+    nav{left:4vw;right:4vw;}
+    .nav-links{
+      position:fixed;top:0;right:0;height:100vh;width:78vw;
+      background:var(--tone-100);border-left:1px solid var(--tone-300);
+      flex-direction:column;justify-content:center;align-items:center;padding:0 10vw;gap:20px;
+      transform:translateX(100%);transition:transform .5s var(--ease);
+    }
+    .nav-links.open{transform:translateX(0);}
+    .nav-links a{font-size:0.9rem;width:100%;text-align:center;}
+    .nav-toggle{display:block;z-index:110;}
+  }
+
+  /* ---------- marquee ---------- */
+  .marquee{overflow:hidden;white-space:nowrap;border-top:1px solid var(--tone-600);border-bottom:1px solid var(--tone-600);padding:12px 0;}
+  .marquee-track{display:inline-flex;animation:marquee 22s linear infinite;}
+  .marquee-track span{font-family:'JetBrains Mono',monospace;font-size:0.76rem;letter-spacing:0.12em;text-transform:uppercase;padding:0 26px;display:inline-flex;align-items:center;gap:26px;color:var(--orange);}
+  @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion:reduce){ .marquee-track{animation:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{background:var(--tone-800);color:var(--tone-100);padding-top:118px;padding-bottom:44px;--scallop-color:var(--tone-800);}
+  .hero-center{max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;}
+  .hero h1{font-size:clamp(2.1rem,5.4vw,3.8rem);max-width:14ch;margin-top:20px;}
+  .hero-sub{margin-top:20px;max-width:42ch;color:var(--tone-300);font-size:1rem;font-weight:300;line-height:1.6;}
+  .hero-ctas{margin-top:34px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+  .btn{
+    font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+    padding:15px 28px;border-radius:999px;border:1px solid var(--orange);white-space:nowrap;
+    transition:background .35s var(--ease), color .35s var(--ease);
+  }
+  .btn-solid{background:var(--orange);color:var(--tone-100);}
+  .btn-solid:hover{background:transparent;color:var(--orange);}
+  .btn-ghost{background:transparent;color:var(--tone-100);border-color:var(--tone-100);}
+  .btn-ghost:hover{background:var(--tone-100);color:var(--tone-800);}
+
+  /* ---------- SOBRE ---------- */
+  .sobre{background:var(--tone-200);}
+  .photo-frame{
+    position:relative;aspect-ratio:4/5;border-radius:var(--radius-lg);background:var(--tan);
+    background-image:repeating-linear-gradient(45deg, rgba(32,31,19,0.08) 0 2px, transparent 2px 12px);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .photo-frame img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);}
+  .placeholder-label{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--tone-700);text-align:center;padding:0 20px;}
+  .photo-tag{position:absolute;bottom:18px;left:50%;transform:translateX(-50%) rotate(-4deg);font-family:'Caveat',cursive;font-weight:700;font-size:1.1rem;color:var(--tone-800);background:var(--tone-100);padding:6px 16px;border-radius:999px;border:2px solid var(--orange);}
+  .sobre-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:70px;align-items:center;}
+  .sobre-text{text-align:center;display:flex;flex-direction:column;align-items:center;}
+  .sobre-text h2{font-size:clamp(1.8rem,3.6vw,2.9rem);margin:16px 0 22px;}
+  .sobre-text p{color:var(--tone-600);font-size:1rem;line-height:1.75;font-weight:300;max-width:52ch;margin-bottom:16px;}
+  .sobre-text p strong{color:var(--tone-800);font-weight:600;}
+
+  /* ---------- SERVICOS ---------- */
+  .servicos{background:var(--azure);}
+  .servicos-head{max-width:64ch;margin:0 auto;text-align:center;}
+  .servicos-head h2{font-size:clamp(1.9rem,3.8vw,2.9rem);margin-top:14px;}
+  .doodle-note{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;color:var(--orange-deep);}
+  .doodle-note svg{width:44px;height:32px;}
+  .doodle-note span{font-family:'Caveat',cursive;font-weight:600;font-size:1.35rem;}
+
+  .tabs{display:flex;gap:6px;margin-top:54px;flex-wrap:wrap;justify-content:center;}
+  .tab-btn{
+    font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;
+    padding:34px 24px 22px;border-radius:20px 20px 0 0;cursor:pointer;border:1px solid var(--tone-700);border-bottom:none;
+    background:var(--tone-100);color:var(--tone-700);transition:background .3s var(--ease), color .3s var(--ease), padding .3s var(--ease);
+  }
+  .tab-btn.active{background:var(--orange);color:var(--tone-100);padding-top:40px;border-color:var(--orange);}
+  .tab-panels{background:var(--tone-800);color:var(--tone-100);border-radius:0 24px 24px 24px;padding:50px;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;text-align:center;}
+  .tab-panel-text{display:flex;flex-direction:column;align-items:center;}
+  .tab-panel h3{font-size:clamp(1.5rem,2.8vw,2.2rem);margin-bottom:14px;color:var(--tone-100);}
+  .tab-panel p{color:var(--tone-300);font-weight:300;line-height:1.7;max-width:48ch;margin-bottom:22px;}
+  .tab-photo{
+    aspect-ratio:4/5;border-radius:var(--radius-md);background:var(--tan-deep);
+    background-image:repeating-linear-gradient(45deg, rgba(251,247,239,0.08) 0 2px, transparent 2px 12px);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .tab-photo .placeholder-label{color:var(--tone-100);}
+  @media (max-width:760px){
+    .tab-panel.active{grid-template-columns:1fr;}
+    .tab-panels{padding:34px 26px;border-radius:0 20px 20px 20px;}
+    .tab-btn{padding:24px 16px 16px;font-size:0.62rem;}
+  }
+
+  /* ---------- PORTFOLIO (filmstrip lateral) ---------- */
+  .portfolio-wrap{position:relative;height:300vh;}
+  .portfolio-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:0 6vw;}
+  .portfolio-head{margin-bottom:44px;text-align:center;}
+  .portfolio-head h2{font-size:clamp(1.9rem,3.8vw,2.9rem);margin-top:14px;}
+  .filmstrip{display:flex;gap:26px;will-change:transform;}
+  .card{flex:0 0 auto;width:min(64vw,340px);}
+  .card-media{
+    position:relative;aspect-ratio:4/5;border-radius:var(--radius-md);background:var(--tone-200);
+    background-image:repeating-linear-gradient(45deg, rgba(32,31,19,0.06) 0 2px, transparent 2px 12px);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .card-media img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06);}
+  .card-tag{position:absolute;top:14px;left:14px;background:var(--orange);color:var(--tone-100);font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;padding:6px 14px;border-radius:999px;}
+  .card-meta{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:16px;text-align:center;}
+  .card-meta b{font-family:'Fraunces',serif;font-weight:600;font-size:1.02rem;}
+  .card-meta span{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--tone-500);text-transform:uppercase;}
+  .drag-hint{margin-top:26px;color:var(--tone-500);text-align:center;}
+  @media (max-width:760px){
+    .portfolio-wrap{height:auto;}
+    .portfolio-sticky{position:relative;height:auto;padding:90px 6vw;}
+    .filmstrip{overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px;transform:none !important;}
+    .card{width:78vw;scroll-snap-align:start;}
+  }
+
+  /* ---------- DEPOIMENTOS (cartoes coloridos recortados) ---------- */
+  .depoimentos{background:var(--tone-150);}
+  .dep-head{max-width:60ch;margin:0 auto 60px;text-align:center;}
+  .dep-head h2{font-size:clamp(1.9rem,3.8vw,2.9rem);margin-top:14px;}
+  .dep-head .sub{font-family:'Caveat',cursive;font-size:1.25rem;color:var(--orange-deep);}
+  .dep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px 26px;max-width:1200px;margin:0 auto;}
+  .dep-card{position:relative;padding:40px 26px 46px;text-align:center;box-shadow:0 14px 30px rgba(32,31,19,0.14);}
+  .dep-card::before, .dep-card::after{
+    content:'';position:absolute;left:0;right:0;height:20px;z-index:1;
+    background-image:radial-gradient(circle at 15px 15px, transparent 15px, var(--tone-x) 16px);
+    background-size:30px 30px;background-repeat:repeat-x;
+  }
+  .dep-card::before{top:-9px;background-position:0 -1px;}
+  .dep-card::after{bottom:-9px;transform:rotate(180deg);}
+  .dep-1{ --tone-x:var(--orange); background:var(--orange); color:var(--tone-100); transform:rotate(-2deg); margin-top:10px;}
+  .dep-2{ --tone-x:var(--azure); background:var(--azure); color:var(--tone-800); transform:rotate(1.5deg); margin-top:46px;}
+  .dep-3{ --tone-x:var(--tone-800); background:var(--tone-800); color:var(--tone-100); transform:rotate(-1deg);}
+  .dep-4{ --tone-x:var(--tan); background:var(--tan); color:var(--tone-800); transform:rotate(2.5deg); margin-top:20px;}
+  .dep-5{ --tone-x:var(--berry); background:var(--berry); color:var(--tone-100); transform:rotate(-1.5deg); margin-top:60px;}
+  .dep-quote{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:1.08rem;line-height:1.5;}
+  .dep-quote mark{padding:0 6px;font-style:normal;font-weight:600;background:var(--tone-800);color:var(--tone-100);}
+  .dep-1 .dep-quote mark{background:var(--tone-800);color:var(--orange);}
+  .dep-2 .dep-quote mark{background:var(--tone-800);color:var(--azure);}
+  .dep-3 .dep-quote mark{background:var(--orange);color:var(--tone-800);}
+  .dep-4 .dep-quote mark{background:var(--tone-800);color:var(--tan);}
+  .dep-5 .dep-quote mark{background:var(--tone-100);color:var(--berry);}
+  .dep-author{margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.06em;text-transform:uppercase;opacity:.8;}
+  @media (max-width:900px){ .dep-grid{grid-template-columns:1fr;} .dep-card{transform:none !important;margin-top:0 !important;} }
+
+  /* ---------- CONTATO ---------- */
+  .contato{background:var(--tone-100);--scallop-color:var(--tone-100);}
+  .contato-grid{display:grid;grid-template-columns:1fr;gap:44px;max-width:640px;margin:0 auto;text-align:center;}
+  .contato h2{font-size:clamp(2rem,5vw,3.4rem);margin-top:14px;}
+  .contato-desc{margin-top:20px;font-weight:300;color:var(--tone-600);line-height:1.7;}
+  .contato-links{margin-top:30px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .contato-links a{font-family:'JetBrains Mono',monospace;font-size:0.82rem;border-bottom:1px solid transparent;transition:border-color .3s var(--ease), color .3s var(--ease);}
+  .contato-links a:hover{border-color:var(--orange);color:var(--orange-deep);}
+  form{margin-top:10px;width:100%;max-width:480px;margin-left:auto;margin-right:auto;}
+  .form-field{margin-bottom:22px;text-align:left;}
+  .form-field label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--tone-600);margin-bottom:8px;}
+  .form-field input, .form-field textarea{
+    width:100%;background:var(--tone-150);border:1px solid var(--tone-300);border-radius:var(--radius-sm);
+    padding:14px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;color:var(--tone-800);resize:none;
+    transition:border-color .3s var(--ease);
+  }
+  .form-field input:focus, .form-field textarea:focus{outline:none;border-color:var(--orange);}
+  .form-submit{
+    display:block;margin:0 auto;background:var(--orange);color:var(--tone-100);border:1px solid var(--orange);
+    padding:15px 30px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+    border-radius:999px;cursor:pointer;transition:background .3s var(--ease), color .3s var(--ease);
+  }
+  .form-submit:hover{background:transparent;color:var(--orange-deep);}
+
+  /* ---------- FRASE FINAL ---------- */
+  .final{background:var(--tone-800);color:var(--tone-100);padding:44px 0 50px;}
+  .final .marquee{border-color:var(--tone-600);}
+  .final-inner{padding:80px 6vw 60px;text-align:center;}
+  .final-inner .ribbon{margin-bottom:30px;}
+  .final-quote{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:clamp(1.7rem,4.2vw,3.1rem);max-width:22ch;margin:0 auto;line-height:1.2;}
+  .final-quote em{color:var(--orange);}
+  .final-cta{margin-top:40px;display:flex;justify-content:center;}
+  footer{
+    margin-top:70px;padding:24px 6vw 0;border-top:1px solid var(--tone-600);
+    display:flex;justify-content:center;gap:20px;flex-wrap:wrap;
+    font-family:'JetBrains Mono',monospace;font-size:0.66rem;letter-spacing:0.06em;color:var(--tone-400);text-transform:uppercase;
+  }
+
+  @media (max-width:900px){
+    .sobre-grid{grid-template-columns:1fr;}
+    .section{padding:70px 6vw;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand-wrap">
+    <div class="dots"><span></span><span></span><span></span></div>
+    <a href="#hero" class="brand">Marina Alves</a>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero" data-nav>Início</a></li>
+    <li><a href="#sobre" data-nav>Sobre</a></li>
+    <li><a href="#servicos" data-nav>Serviços</a></li>
+    <li><a href="#portfolio" data-nav>Portfólio</a></li>
+    <li><a href="#depoimentos" data-nav>Depoimentos</a></li>
+    <li><a href="#contato" data-nav>Contato</a></li>
+  </ul>
+</nav>
+
+<!-- 1. HERO -->
+<header id="hero" class="section hero scallop-bottom">
+  <div class="container hero-center">
+    <span class="ribbon ribbon-accent reveal">Design gráfico · social media</span>
+    <h1 class="reveal reveal-delay-1">Toda marca merece um <em>rosto</em> que ninguém esquece.</h1>
+    <p class="hero-sub reveal reveal-delay-2">
+      Sou Marina, designer gráfica e criadora de conteúdo visual. Construo identidades
+      que conectam — do feed ao impresso — com direção de arte e um olhar que não segue fórmula.
+    </p>
+    <div class="hero-ctas reveal reveal-delay-3">
+      <a href="#portfolio" class="btn btn-solid">Ver portfólio</a>
+      <a href="#contato" class="btn btn-solid">Fazer orçamento</a>
+    </div>
+  </div>
+
+  <div class="marquee" style="margin-top:44px;">
+    <div class="marquee-track">
+      <span>✦ Design gráfico ✦ Social media ✦ Identidade visual ✦ Direção de arte ✦ Design gráfico ✦ Social media ✦ Identidade visual ✦ Direção de arte</span>
+      <span>✦ Design gráfico ✦ Social media ✦ Identidade visual ✦ Direção de arte ✦ Design gráfico ✦ Social media ✦ Identidade visual ✦ Direção de arte</span>
+    </div>
+  </div>
+</header>
+
+<!-- 2. SOBRE -->
+<section id="sobre" class="section sobre">
+  <div class="container sobre-grid">
+    <div class="reveal">
+      <div class="photo-frame">
+        <!-- Troque por: <img src="sua-foto.jpg" alt="Marina Alves"> -->
+        <p class="placeholder-label">Sua foto aqui<br>(retrato)</p>
+        <span class="photo-tag">oi, sou eu!</span>
+      </div>
+    </div>
+    <div class="sobre-text reveal reveal-right">
+      <span class="ribbon ribbon-dark">Sobre mim</span>
+      <h2>Design com <em>propósito</em> e ritmo.</h2>
+      <p>
+        Há <strong>6 anos</strong> ajudo marcas e criadores a encontrarem uma linguagem visual
+        que não passa despercebida. Trabalho na fronteira entre o <strong>design gráfico</strong>
+        e o <strong>social media</strong> — cada peça pensada como parte de um sistema, não algo isolado.
+      </p>
+      <p>
+        Meu processo começa pela escuta: entender a marca, o público e o que precisa ser dito
+        antes de qualquer traço. O resultado conversa em qualquer lugar — no feed, na embalagem, no cartão de visita.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. SERVIÇOS -->
+<section id="servicos" class="section servicos">
+  <div class="container">
+    <div class="servicos-head reveal">
+      <span class="ribbon ribbon-accent">O que eu faço</span>
+      <h2>Espia os meus <em>serviços</em>.</h2>
+      <div class="doodle-note">
+        <svg viewBox="0 0 60 40" fill="none">
+          <path d="M4 6 C 20 4, 30 30, 52 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M52 22 L 44 18 M52 22 L 46 30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>escolhe um pra ver mais</span>
+      </div>
+    </div>
+
+    <div class="tabs reveal reveal-delay-1">
+      <button class="tab-btn active" data-tab="1">01 · Identidade</button>
+      <button class="tab-btn" data-tab="2">02 · Social media</button>
+      <button class="tab-btn" data-tab="3">03 · Editorial</button>
+      <button class="tab-btn" data-tab="4">04 · Ilustração</button>
+    </div>
+
+    <div class="tab-panels reveal reveal-delay-2">
+      <div class="tab-panel active" id="panel-1">
+        <div class="tab-panel-text">
+          <h3>Identidade visual</h3>
+          <p>Logo, paleta, tipografia e manual de marca — a base sólida sobre a qual tudo o resto é construído.</p>
+          <a href="#contato" class="btn btn-solid">Solicitar orçamento</a>
+        </div>
+        <div class="tab-photo"><p class="placeholder-label">Exemplo do<br>serviço aqui</p></div>
+      </div>
+      <div class="tab-panel" id="panel-2">
+        <div class="tab-panel-text">
+          <h3>Social media</h3>
+          <p>Templates, feed planejado, stories e conteúdo com direção de arte consistente do início ao fim.</p>
+          <a href="#contato" class="btn btn-solid">Solicitar orçamento</a>
+        </div>
+        <div class="tab-photo"><p class="placeholder-label">Exemplo do<br>serviço aqui</p></div>
+      </div>
+      <div class="tab-panel" id="panel-3">
+        <div class="tab-panel-text">
+          <h3>Editorial &amp; impressos</h3>
+          <p>Catálogos, cardápios, embalagens e materiais gráficos pensados para o mundo físico.</p>
+          <a href="#contato" class="btn btn-solid">Solicitar orçamento</a>
+        </div>
+        <div class="tab-photo"><p class="placeholder-label">Exemplo do<br>serviço aqui</p></div>
+      </div>
+      <div class="tab-panel" id="panel-4">
+        <div class="tab-panel-text">
+          <h3>Ilustração autoral</h3>
+          <p>Peças ilustradas sob medida, para quando a marca pede um traço que só ela tem.</p>
+          <a href="#contato" class="btn btn-solid">Solicitar orçamento</a>
+        </div>
+        <div class="tab-photo"><p class="placeholder-label">Exemplo do<br>serviço aqui</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PORTFÓLIO -->
+<div class="portfolio-wrap" id="portfolio">
+  <div class="portfolio-sticky">
+    <div class="portfolio-head reveal">
+      <span class="ribbon ribbon-dark">Trabalhos selecionados</span>
+      <h2>Portfólio</h2>
+    </div>
+
+    <div class="filmstrip" id="filmstrip">
+      <div class="card">
+        <div class="card-media"><span class="card-tag">Identidade</span><p class="placeholder-label">Imagem do projeto 01</p></div>
+        <div class="card-meta"><b>Projeto Aurora</b><span>2026</span></div>
+      </div>
+      <div class="card">
+        <div class="card-media"><span class="card-tag">Social media</span><p class="placeholder-label">Imagem do projeto 02</p></div>
+        <div class="card-meta"><b>Café Nômade</b><span>2026</span></div>
+      </div>
+      <div class="card">
+        <div class="card-media"><span class="card-tag">Editorial</span><p class="placeholder-label">Imagem do projeto 03</p></div>
+        <div class="card-meta"><b>Estúdio Vento</b><span>2025</span></div>
+      </div>
+      <div class="card">
+        <div class="card-media"><span class="card-tag">Embalagem</span><p class="placeholder-label">Imagem do projeto 04</p></div>
+        <div class="card-meta"><b>Rótulos Nortada</b><span>2025</span></div>
+      </div>
+      <div class="card">
+        <div class="card-media"><span class="card-tag">Ilustração</span><p class="placeholder-label">Imagem do projeto 05</p></div>
+        <div class="card-meta"><b>Bloom Festival</b><span>2025</span></div>
+      </div>
+    </div>
+
+    <p class="mono drag-hint">Continue rolando para navegar pelos projetos</p>
+  </div>
+</div>
+
+<!-- 5. DEPOIMENTOS -->
+<section id="depoimentos" class="section depoimentos">
+  <div class="container">
+    <div class="dep-head reveal">
+      <span class="ribbon ribbon-accent">Depoimentos</span>
+      <h2>Ouça quem já <em>confiou</em> no meu trabalho.</h2>
+      <p class="sub hand">(eu prefiro chamar de parcerias)</p>
+    </div>
+
+    <div class="dep-grid">
+      <div class="dep-card dep-1 reveal">
+        <p class="dep-quote">A Marina entendeu nossa marca melhor do que a gente mesmo sabia <mark>explicar</mark>.</p>
+        <div class="dep-author">Rafael Costa — Café Nômade</div>
+      </div>
+      <div class="dep-card dep-2 reveal reveal-delay-1">
+        <p class="dep-quote">Processo rápido, comunicação clara e um olhar estético que elevou nosso feed inteiro.</p>
+        <div class="dep-author">Juliana Prado — Estúdio Vento</div>
+      </div>
+      <div class="dep-card dep-3 reveal reveal-right">
+        <p class="dep-quote">Trouxe uma personalidade que a gente não tinha nem nas <mark>referências</mark>.</p>
+        <div class="dep-author">Tomás Andrade — Rótulos Nortada</div>
+      </div>
+      <div class="dep-card dep-4 reveal reveal-delay-2">
+        <p class="dep-quote">Cada peça parece parte de um sistema — nada solto, nada fora do tom da marca.</p>
+        <div class="dep-author">Bia Ferraz — Bloom Festival</div>
+      </div>
+      <div class="dep-card dep-5 reveal reveal-right reveal-delay-1">
+        <p class="dep-quote">Comunicação fácil do início ao fim, e o resultado ficou <mark>impecável</mark>.</p>
+        <div class="dep-author">Nina Salles — Aurora</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CONTATO -->
+<section id="contato" class="section contato scallop-bottom">
+  <div class="container contato-grid">
+    <div class="reveal">
+      <span class="ribbon ribbon-dark">Vamos conversar</span>
+      <h2>Vamos criar algo juntos?</h2>
+      <p class="contato-desc">
+        Me conta um pouco sobre o seu projeto e eu retorno com uma proposta em até 48h.
+        Também respondo direto pelo WhatsApp ou Instagram, se preferir algo mais rápido.
+      </p>
+      <div class="contato-links">
+        <a href="mailto:contato@marinaalves.com">contato@marinaalves.com</a>
+        <a href="#">＋55 (11) 90000-0000 — WhatsApp</a>
+        <a href="#">@marinaalves.design — Instagram</a>
+      </div>
+    </div>
+
+    <form class="reveal reveal-delay-1" onsubmit="event.preventDefault(); alert('Formulário de exemplo — conecte a um serviço como Formspree ou seu backend para receber envios.');">
+      <div class="form-field"><label for="nome">Nome</label><input type="text" id="nome" name="nome" required></div>
+      <div class="form-field"><label for="email">E-mail</label><input type="email" id="email" name="email" required></div>
+      <div class="form-field"><label for="projeto">Conte sobre o projeto</label><textarea id="projeto" name="projeto" rows="4" required></textarea></div>
+      <button type="submit" class="form-submit">Solicitar orçamento</button>
+    </form>
+  </div>
+</section>
+
+<!-- 7. FRASE FINAL -->
+<section class="final">
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>✦ Vamos criar juntos ✦ Design gráfico ✦ Social media ✦ Identidade visual ✦ Vamos criar juntos ✦ Design gráfico ✦ Social media ✦ Identidade visual</span>
+      <span>✦ Vamos criar juntos ✦ Design gráfico ✦ Social media ✦ Identidade visual ✦ Vamos criar juntos ✦ Design gráfico ✦ Social media ✦ Identidade visual</span>
+    </div>
+  </div>
+
+  <div class="final-inner container">
+    <span class="ribbon ribbon-accent reveal">Bora começar?</span>
+    <p class="final-quote reveal reveal-delay-1">"Uma marca boa não grita. <em>Ela é lembrada.</em>"</p>
+    <div class="final-cta reveal reveal-delay-2">
+      <a href="#contato" class="btn btn-solid">Solicitar orçamento</a>
+    </div>
+  </div>
+
+  <div class="marquee">
+    <div class="marquee-track" style="animation-direction:reverse;">
+      <span>✦ Vamos criar juntos ✦ Design gráfico ✦ Social media ✦ Identidade visual ✦ Vamos criar juntos ✦ Design gráfico ✦ Social media ✦ Identidade visual</span>
+      <span>✦ Vamos criar juntos ✦ Design gráfico ✦ Social media ✦ Identidade visual ✦ Vamos criar juntos ✦ Design gráfico ✦ Social media ✦ Identidade visual</span>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Marina Alves</span>
+    <span>Design gráfico &amp; social media</span>
+  </footer>
+</section>
+
+<script>
+  // Menu mobile
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  document.querySelectorAll('[data-nav]').forEach(a=> a.addEventListener('click', ()=> navLinks.classList.remove('open')));
+
+  // Nav active state
+  const sections = document.querySelectorAll('.section[id], .portfolio-wrap[id]');
+  const navItems = document.querySelectorAll('[data-nav]');
+  const navObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = entry.target.getAttribute('id');
+        navItems.forEach(a=> a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+      }
+    });
+  }, { rootMargin:'-45% 0px -45% 0px' });
+  sections.forEach(s=> navObserver.observe(s));
+
+  // Reveal on scroll (entra pelos lados)
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+    });
+  }, { threshold:0.16 });
+  revealEls.forEach(el=> revealObserver.observe(el));
+
+  // Tabs (serviços)
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=> b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=> p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Portfólio: movimento lateral ligado ao scroll (sticky filmstrip)
+  const portfolioWrap = document.getElementById('portfolio');
+  const filmstrip = document.getElementById('filmstrip');
+  let filmstripMax = 0;
+  function measureFilmstrip(){ filmstripMax = Math.max(filmstrip.scrollWidth - window.innerWidth + 96, 0); }
+  function updatePortfolio(){
+    if(window.innerWidth <= 760) return;
+    const rect = portfolioWrap.getBoundingClientRect();
+    const total = portfolioWrap.offsetHeight - window.innerHeight;
+    const scrolled = Math.min(Math.max(-rect.top, 0), total);
+    const progress = total > 0 ? scrolled / total : 0;
+    const x = progress * filmstripMax;
+    filmstrip.style.transform = `translateX(-${x}px)`;
+  }
+  let ticking=false;
+  function onScroll(){
+    if(!ticking){ window.requestAnimationFrame(()=>{ updatePortfolio(); ticking=false; }); ticking=true; }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', ()=>{ measureFilmstrip(); updatePortfolio(); });
+  measureFilmstrip();
+  updatePortfolio();
+</script>
+
+</body>
+</html>
